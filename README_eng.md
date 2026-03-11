@@ -4,7 +4,7 @@
 
 # POLA Multi-Horizon TEU Forecasting
 
-**Port of Los Angeles · Monthly Container Throughput · 1 / 3 / 6 / 12-Month Horizons**
+**Port of Los Angeles Monthly Container Throughput 1 / 3 / 6 / 12-Month Horizons**
 
 Georgia Tech CS 7643 Group Project (2025)
 
@@ -39,8 +39,6 @@ The raw CSV contains only TEU counts — no external drivers. We manually engine
 | GSCPI | Federal Reserve FRED | Supply-chain congestion index; peaked during 2014–15 ILWU labor dispute |
 | U.S. Manufacturing PMI | ISM | Industrial demand proxy; trough 44 in 2009, >55 in expansion years |
 | Peak-Season Dummy | Domain rule | Oct–Nov retail surge flag |
-
-> **Interview note**: Exogenous variables were z-normalized for deep models (StandardScaler). For the rolling-origin backtest, we used *realized* exogenous values at t+h — a known limitation discussed in Section 6.
 
 ---
 
