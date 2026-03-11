@@ -36,7 +36,7 @@ Georgia Tech CS 7643 팀 프로젝트 (2025)
 | 미국 제조업 PMI | ISM | 산업 수요 대리변수; 2009년 44 저점 → 확장기 55 이상 |
 | 성수기 더미 (10~11월) | 도메인 규칙 | 연말 소비재 수요 급증 구간 플래그 |
 
-> **면접 포인트**: 외생변수는 딥러닝 모델에 StandardScaler로 z-정규화 적용. 롤링 오리진 백테스트에서는 t+h 시점의 *실현값*을 사용했으며, 실제 배포 시 외생변수 자체에 대한 예측 파이프라인이 필요하다는 한계를 6절에서 논의합니다.
+> **면접 포인트**: 외생변수는 딥러닝 모델에 StandardScaler로 z-정규화 적용. rolling-origin backtest에서는 t+h 시점의 *실현값*을 사용했으며, 실제 배포 시 외생변수 자체에 대한 예측 파이프라인이 필요하다는 한계를 6절에서 논의합니다.
 
 ---
 
@@ -93,7 +93,7 @@ min_child_samples=5, subsample=0.8, colsample_bytree=0.8
 
 ## 4. 평가 방법론
 
-### 4.1 롤링 오리진 백테스트
+### 4.1 rolling-origin backtest 
 
 모든 모델에 동일한 프로토콜 적용:
 
@@ -134,7 +134,7 @@ min_child_samples=5, subsample=0.8, colsample_bytree=0.8
 
 ### 5.2 전체 지표
 
-**SARIMAX** (롤링 오리진, n=57~68)
+**SARIMAX** (rolling-origin backtest, n=57~68)
 
 | 구간 | n | RMSE | MAE | MAPE |
 |---|---|---|---|---|
@@ -143,7 +143,7 @@ min_child_samples=5, subsample=0.8, colsample_bytree=0.8
 | 6M | 63 | 104,261 | 78,881 | 11.89% |
 | 12M | 57 | 111,713 | 87,735 | 13.26% |
 
-**LightGBM** (롤링 오리진, n=7~8, seed=42)
+**LightGBM** (rolling-origin backtest, n=7~8, seed=42)
 
 | 구간 | n | RMSE | MAE | MAPE |
 |---|---|---|---|---|
@@ -152,7 +152,7 @@ min_child_samples=5, subsample=0.8, colsample_bytree=0.8
 | 6M | 8 | 84,481 | 61,078 | 8.70% |
 | 12M | 7 | 47,802 | 45,656 | 6.35% |
 
-**LSTM** (롤링 오리진, n=8, seed=42)
+**LSTM** (rolling-origin backtest, n=8, seed=42)
 
 | 구간 | n | RMSE | MAE | MAPE |
 |---|---|---|---|---|
@@ -161,7 +161,7 @@ min_child_samples=5, subsample=0.8, colsample_bytree=0.8
 | 6M | 8 | 174,893 | 140,691 | 19.97% |
 | 12M | 8 | 180,693 | 146,945 | 20.12% |
 
-**TCN** (롤링 오리진, n=8, seed=42)
+**TCN** (rolling-origin backtest, n=8, seed=42)
 
 | 구간 | n | RMSE | MAE | MAPE |
 |---|---|---|---|---|
@@ -170,7 +170,7 @@ min_child_samples=5, subsample=0.8, colsample_bytree=0.8
 | 6M | 8 | 135,404 | 108,423 | 15.44% |
 | 12M | 8 | 161,665 | 151,165 | 21.15% |
 
-**TFT** (롤링 오리진, n=8, seed=42)
+**TFT** (rolling-origin backtest, n=8, seed=42)
 
 | 구간 | n | RMSE | MAE | MAPE |
 |---|---|---|---|---|
@@ -201,7 +201,7 @@ min_child_samples=5, subsample=0.8, colsample_bytree=0.8
 |---|---|
 | 소규모 데이터 (n=93) | LSTM/TCN 신뢰성 있는 학습에 불충분; 딥러닝 결과는 파일럿 수준으로 해석 필요 |
 | 외생변수 실현값 사용 | 백테스트에서 t+h 시점 실현값 활용. 실제 배포 시 별도 예측 또는 시나리오 가정 필요 |
-| 롤링 오리진 n=8 | 소규모 테스트셋으로 통계적 검정력 제한 |
+| rolling-origin backtest n=8 | 소규모 테스트셋으로 통계적 검정력 제한 |
 | 단일 항만 | 다른 구조적·계절적 특성을 가진 항만으로의 일반화 미검증 |
 
 ---
@@ -210,7 +210,7 @@ min_child_samples=5, subsample=0.8, colsample_bytree=0.8
 
 ```
 ├── utils.py                      # 데이터 로딩, 슬라이딩 윈도우, 지표 계산
-├── train_lgbm.py                 # LightGBM 다중 구간 롤링 오리진 백테스트
+├── train_lgbm.py                 # LightGBM 다중 구간 rolling-origin backtest
 ├── train_lstm_tcn.py             # Seq2Seq LSTM 및 TCN (PyTorch)
 ├── train_tft.py                  # Temporal Fusion Transformer (pytorch-forecasting)
 ├── visualize.py                  # figures 저장
